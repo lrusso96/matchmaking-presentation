@@ -1,0 +1,213 @@
+\define\secpar{\lambda}
+\define\secparam{1^\lambda}
+\define\adversary{\mathcal{A}}
+\define\negl{\rm{negl(\secpar)}}
+\define\NN{\mathbb{N}}
+\define\sk{\rm{sk}}
+\define\pk{\rm{pk}}
+\define\msg{\rm{m}}
+\define\cipher{\rm{c}}
+\define\cMSG{\mathcal{M}}
+\define\sample{\leftarrow}
+\define\Sigeufgame{\rm{G}^\rm{euf}}
+\define\cQuery{\mathcal{Q}}
+\define\signature{s}
+\define\kgen{\rm{KGen}}
+\define\sign{\rm{Sign}}
+\define\ver{\rm{Ver}}
+
+\define\gen{\rm{Gen}}
+\define\prover{\rm{P}}
+\define\verifier{\rm{V}}
+
+\define\mpk{\rm{mpk}}
+\define\msk{\rm{msk}}
+\define\ek{\rm{ek}}
+\define\dk{\rm{dk}}
+\define\kpol{\rm{kpol}}
+\define\sattr{\sigma}
+\define\rattr{\rho}
+\define\saccess{\mathbb{S}}
+\define\raccess{\mathbb{R}}
+\define\skgen{\rm{SKGen}}
+\define\rkgen{\rm{RKGen}}
+\define\polgen{\rm{PolGen}}
+\define\enc{\rm{Enc}}
+\define\dec{\rm{Dec}}
+
+
+\environment slides
+\definehighlight[important][color=red]
+
+\starttext
+
+\setvariables[metadata][
+    title={Matchmaking Encryption against Chosen-Ciphertext Attacks},
+    author={Luigi Russo},
+    date={\currentdate}
+]
+
+\startslide[title={Matchmaking Encryption 101}]
+\externalfigure[images/me][horizontal]
+\stopslide
+
+\startslide[title={General Setting}]
+\startitemize[1,broad]
+\item Key Generation, managed by the trusted party:
+\startitemize[packed, broad]
+\item $\skgen(\msk, \sattr)$
+\item $\rkgen(\msk, \rattr)$
+\item $\polgen(\msk, \saccess)$
+\stopitemize
+\item Encryption. $\enc(\ek_\sattr, \raccess, \msg)$
+\item Decryption. $\dec(\dk_\rattr, \dk_\saccess, \cipher)$
+\item Correctness. If $\saccess(\sattr) = \raccess(\rattr) = 1:$
+\startformula
+Pr[\dec(\dk_\rattr, \dk_\saccess, \enc(\ek_\sattr, \raccess, \msg)) = 1] \ge 1 - \negl
+\stopformula
+\stopitemize
+\stopslide
+
+\startslide[title={Arranged Matchmaking}]
+\startitemize[1,broad]
+\item Key Generation, managed by the trusted party:
+\startitemize[packed, broad]
+\item $\skgen(\msk, \sattr)$
+\item $\rkgen(\msk, \rattr, \important{\saccess})$
+\item $\overstrike{\polgen(\msk, \saccess)}$
+\stopitemize
+\item Encryption: $\enc(\ek_\sattr, \raccess, \msg)$
+\item Decryption: $\dec(\dk_{\rattr, \important\saccess}, \cipher)$
+\item Correctness. If $\saccess(\sattr) = \raccess(\rattr) = 1:$
+\startformula
+Pr[\dec(\dk_{\rattr, \saccess}, \enc(\ek_\sattr, \raccess, \msg)) = 1] \ge 1 - \negl
+\stopformula
+\stopitemize
+\stopslide
+
+\startslide[title={Signature Schemes}]
+A signature scheme $\Pi = (\kgen, \sign, \ver)$ satisfies:
+\startitemize[n,packed,broad]
+\item {\bf Correctness}. $\forall\secpar\in\NN$, $\forall (\sk, \pk) \sample \kgen(\secparam)$, and $\forall \msg \in \cMSG$:
+\startformula
+P[\ver(\pk, \msg, \sign(\sk, \msg)) = 1] = 1.
+\stopformula
+\item {\bf EUF-CMA}. $\forall$ PPT $\adversary:$
+\startformula
+Pr[\Sigeufgame_{\Pi,\adversary}(\secpar) = 1] \leq \negl
+\stopformula
+where $\Sigeufgame_{\Pi,\adversary}(\secpar)$ is the following game:
+\startitemize[packed]
+\item $(\sk, \pk) \sample KGen(\secparam)$.
+\item $(\msg, \signature) \sample \adversary^{\sign(\sk, \cdot)}(\secparam, \pk)$
+\item If $\msg \not\in \cQuery_{\sign}$, and $\ver(\pk,\msg, \signature) = 1$, output $1$, else $0$.
+\stopitemize
+\stopslide
+
+\startslide[title={Non-Interactive Zero-Knowledge}]
+A NIZK proof system $\Pi = (\gen, \prover, \verifier)$ for a relation $R$ satisfies:
+\startitemize[n, packed, broad, atmargin]
+\item {\bf Completeness}. $\forall y \in L$:
+\startformula
+Pr[\verifier(\omega, y, \pi)=1: \omega \sample \gen(\secparam), \pi \sample \prover(\omega, y, x)] = 1
+\stopformula
+\item {\bf Soundness}. $\forall y \not\in L, \forall \prover^*$:
+\startformula
+Pr[\verifier(\omega, y, \pi)=1: \omega \sample \gen(\secparam), \pi \sample \prover^*(\omega, y)] \in \negl
+\stopformula
+\item {\bf Zero-Knowledge}. $\exists (Z_0, Z_1)$ s.t. $\forall y \in L:$
+\startformula
+\{\omega, Z_1(\zeta, y): (\omega, \zeta) \sample Z_0(\secparam)\}
+\stopformula
+\startformula
+\approx_c
+\stopformula
+\startformula
+\{\omega, \prover(\omega, y, x): \omega \sample \gen(\secparam)\}
+\stopformula
+\stopitemize
+\stopslide
+
+\startslide[title={True-Simulation Extractability}]
+A NIZK $\Pi$ for a relation $R$ satisfies true-simulation f-extractability for a function $f$ if $\exists$ PPT extractor $K = (K_0,K_1)$ s. t. $\forall \adversary$:
+\startformula
+Pr
+\startmatrix[left={\left[\,},right={\,\right]}]
+\NC \ver(\omega, y, \pi) = 1 \;\land \NC \NC (\omega, \zeta, \xi) \sample K_0(\secparam) \;\land \NR
+\NC (y, \pi) \not\in\mathcal{O}_O \;\land \NC : \NC (y, \pi) \sample \adversary^{O(\zeta, (\cdot, \cdot))}(\omega) \;\land \NR
+\NC \forall x: f(x) = z, (y, x) \not \in R \NC \NC z \sample K_1(\xi, y, \pi) \NR
+\stopmatrix
+\stopformula
+* the oracle $O(\zeta, \cdot, \cdot)$ takes as input a pair $(y, x)$ and returns $Z_1(\zeta, y)$ if $(y, x) \in R$ (and otherwise \bot).
+\stopslide
+
+\startslide[title={Attribute-Based Encryption}]
+\placefigure[here,force, none]{}
+{\startcombination[2*1]
+    {\externalfigure[images/cp_abe][width=.5\textwidth]}{Ciphertext-Policy ABE}
+    {\externalfigure[images/kp_abe][width=.5\textwidth]}{Key-Policy ABE}
+    \stopcombination}
+\stopslide
+
+\startslide[title={CCA Privacy}]
+Captures secrecy of sender's inputs.
+\startformula
+\startmatrix[align=left]
+\NC \underline{G_{\Pi, A}^{\rm{priv}}(\lambda, b)}: \NR
+\NR
+\NC (\mpk, \kpol, \msk) \sample \tt{Setup}(\secparam) \NR
+\NC (\msg_0, \msg_1, \raccess_0, \raccess_1, \sattr_0, \sattr_1, \alpha) \sample A_1^{O_1, O_2, O_3, \important O_4}(\secparam, \mpk) \NR
+\NC \ek_{\sattr_b} \sample \skgen(\msk, \sattr_b) \NR
+\NC \cipher \sample \enc(\ek_{\sattr_b}, \raccess_b, \msg_b) \NR
+\NC b' \sample A_2^{O_1, O_2, O_3, \important O_4}(\secparam, \cipher, \alpha) \NR
+\stopmatrix
+\stopformula
+\stopslide
+
+\startslide[title={CCA Authenticity}]
+Captures security against malicious senders.
+\startformula
+\startmatrix[align=left]
+\underline{G_{\Pi, A}^{\rm{auth}}(\lambda)}: \NR
+\NR
+(\mpk, \kpol, \msk) \sample \tt{Setup}(\secparam) \NR
+(\cipher, \rho, \saccess) \sample A_1^{O_1, O_2, O_3, \important O_5}(\secparam, \mpk) \NR
+\dk_\rattr \sample \rkgen(\msk, \rattr_b) \NR
+\dk_\saccess \sample \polgen(\kpol, \saccess) \NR
+m = \dec(\dk_\rattr, \dk_\saccess, \cipher) \NR
+\NR
+\important{(\cipher \not\in \mathbb{O}_{O_5})} \land \forall \sattr \in \cQuery_{O_1}: (\saccess(\sattr) = 0) \land (\msg \ne \bot) \NR
+\stopmatrix
+\stopformula
+\stopslide
+
+\startslide[title={CCA Transformation Lattice}]
+\externalfigure[images/constr][horizontal]
+\stopslide
+
+\startslide[title={Showcase: CCA Direct Transformation}]
+To encrypt message $\msg$ under sender attributes $\sattr$ and policy $\raccess$:
+\startitemize[n, packed, broad]
+\item encrypt $\msg$ using the underlying ME scheme
+\item add a NIZK argument of the knowledge of $\msg$ and a valid* signature $s$ on $\sattr$.
+\stopitemize
+* produced by a trusted party.
+\stopslide
+
+\startslide[title={Sketch Proof}]
+\startitemize[1, broad]
+\item CCA-authenticity reduced to EUF-CMA.
+\item CCA-privacy reduced to CPA-Privacy: the decryption oracle is simulated thanks to true-simulation f-extractability of the NIZK. We assume $f(\sattr, s,\raccess, \msg, r) = (\sattr, s, \raccess, \msg)$.
+\stopitemize
+\stopslide
+
+\startslide[title={Open problems}]
+\startitemize[1, broad]
+\item ME from standard assumptions
+\item Efficient IB-ME constructions
+\item Mitigating Key Escrow
+\item Blackbox Constructions from ABE
+\stopitemize
+\stopslide
+
+\stoptext

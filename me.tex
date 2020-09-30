@@ -49,385 +49,383 @@
 ]
 
 \startmode[pke-full]
-\startslide[title={Public Key Encryption}]
-\startitemize[broad]
-\item Alice wants to send a message to Bob
-\item Bob generates a pair of keys $(\pk, \sk)$ and publishes $\pk$
-\item Alice uses $\pk$ to encrypt the message
-\item Bob uses $\sk$ to decrypt
-\stopitemize
-\stopslide
+    \startslide[title={Public Key Encryption}]
+        \startitemize[broad]
+            \item Alice wants to send a message to Bob
+            \item Bob generates a pair of keys $(\pk, \sk)$ and publishes $\pk$
+            \item Alice uses $\pk$ to encrypt the message
+            \item Bob uses $\sk$ to decrypt
+        \stopitemize
+    \stopslide
 \stopmode
 
 \startslide[title={PKE: an example}]
-\externalfigure[images/pke][horizontal]
+    \externalfigure[images/pke][horizontal]
 \stopslide
 
 \startslide[title={Attribute-Based Encryption}]
-A type of PKE in which:
-\startitemize[1, broad]
-\item secret keys and ciphertext depend upon user attributes
-\item the decryption of a ciphertext is possible only if the set of attributes of the user key matches the attributes of the ciphertext
-\item the same ciphertext may be potentially decrypted by different users
-\item the keys are distributed by a trusted party
-\stopitemize
+    A type of PKE in which:
+    \startitemize[1, broad]
+        \item secret keys and ciphertext depend upon user attributes
+        \item the decryption of a ciphertext is possible only if the set of attributes of the user key matches the attributes of the ciphertext
+        \item the same ciphertext may be potentially decrypted by different users
+        \item the keys are distributed by a trusted party
+    \stopitemize
 \stopslide
 
 \startslide[title={ABE: an example}]
-\externalfigure[images/cp_abe][horizontal]
+    \externalfigure[images/cp_abe][horizontal]
 \stopslide
 
 \startslide[title={Matchmaking Encryption}]
-{\bf Main requirements}
-\startitemize[1, packed, broad]
-\item The sender $\sattr$ can specify a policy $\raccess$ for the receiver
-\item The receiver $\rattr$ can specify a policy $\saccess$ for the sender
-\item The policies are represented as circuits $\mathbb{C}:\{0, 1\}^* \to \{0, 1\}$
-\item If both the policies are matched, i.e. $\saccess(\sattr) = \raccess(\rattr) = 1$, then the decryption is successful. Otherwise \underbar{nothing} is leaked.
-\item A trusted party stores the secrets
-\stopitemize
-{\bf Applications}
-\startitemize[1, packed, broad]
-\item Social matchmaking
-\item Encrypting bids and votes
-\item \dots
-\stopitemize
+    {\bf Main requirements}
+    \startitemize[1, packed, broad]
+        \item The sender $\sattr$ can specify a policy $\raccess$ for the receiver
+        \item The receiver $\rattr$ can specify a policy $\saccess$ for the sender
+        \item The policies are represented as circuits $\mathbb{C}:\{0, 1\}^* \to \{0, 1\}$
+        \item If both the policies are matched, i.e. $\saccess(\sattr) = \raccess(\rattr) = 1$, then the decryption is successful. Otherwise \underbar{nothing} is leaked.
+        \item A trusted party stores the secrets
+    \stopitemize
+    {\bf Applications}
+    \startitemize[1, packed, broad]
+        \item Social matchmaking
+        \item Encrypting bids and votes
+        \item \dots
+    \stopitemize
 \stopslide
 
 \startslide[title={ME: an example}]
-\externalfigure[images/me][horizontal]
+    \externalfigure[images/me][horizontal]
 \stopslide
 
 \startslide[title={Chosen-Ciphertext Attacks}]
-\startitemize
-\item The attacker can gather information by obtaining the decryptions of chosen ciphertexts.
-\item From these pieces of information, can attempt to break the security (e.g. recover the secret key)
-\item Fundamental in many practical situations
-\stopitemize
-{\important Matchmaking Encryption did not consider CCA.}
+    \startitemize
+        \item The attacker can gather information by obtaining the decryptions of chosen ciphertexts.
+        \item From these pieces of information, can attempt to break the security (e.g. recover the secret key)
+        \item Fundamental in many practical situations
+    \stopitemize
+    {\important Matchmaking Encryption did not consider CCA.}
 \stopslide
 
 \startslide[title={Thesis Goals}]
-\startitemize[n]
-\item Extend the security definitions to handle chosen-ciphertext attacks
-\startitemize[1, packed]
-\item CCA Privacy
-\item CCA Authenticity
-\stopitemize
-\item Provide blackbox constructions from CPA to CCA to obtain:
-\startitemize[1, packed]
-\item Privacy only
-\item Authenticity only
-\item Privacy and Authenticity
-\stopitemize
-\stopitemize
+    \startitemize[n]
+        \item Extend the security definitions to handle chosen-ciphertext attacks
+        \startitemize[1, packed]
+            \item CCA Privacy
+            \item CCA Authenticity
+        \stopitemize
+        \item Provide blackbox constructions from CPA to CCA to obtain:
+        \startitemize[1, packed]
+            \item Privacy only
+            \item Authenticity only
+            \item Privacy and Authenticity
+        \stopitemize
+    \stopitemize
 \stopslide
 
 \startslide[title={Privacy}]
-{\bf CPA setting}
-\startitemize[packed, broad]
-\item captures secrecy of sender's inputs in presence of malicious receivers.
-\item in case of mismatch, the reason why the match did not occur is not revealed.
-\stopitemize
+    {\bf CPA setting}
+    \startitemize[packed, broad]
+        \item captures secrecy of sender's inputs in presence of malicious receivers.
+        \item in case of mismatch, the reason why the match did not occur is not revealed.
+    \stopitemize
 
-{\bf CCA extension}
-\startitemize[packed, broad]
-\item the adversary may now additionally have access to a decryption
-oracle that answers decryption queries
-\item enforce privacy even in the presence of attackers who can obtain the decryption of possibly mauled ciphertexts.
-\stopitemize
+    {\bf CCA extension}
+    \startitemize[packed, broad]
+        \item the adversary may now additionally have access to a decryption
+        oracle that answers decryption queries
+        \item enforce privacy even in the presence of attackers who can obtain the decryption of possibly mauled ciphertexts.
+    \stopitemize
 \stopslide
 
 \startslide[title={Authenticity}]
-{\bf CPA setting}
-\startitemize[packed, broad]
-\item captures security against malicious senders
-\item no adversary can spoof the sender identity
-\stopitemize
+    {\bf CPA setting}
+    \startitemize[packed, broad]
+        \item captures security against malicious senders
+        \item no adversary can spoof the sender identity
+    \stopitemize
 
-{\bf CCA extension}
-\startitemize[packed, broad]
-\item the attacker is also given access to an encryption oracle
-\item captures authenticity in the presence of attackers that try to generate valid ciphertexts by mauling previously obtained ciphertexts
-\stopitemize
+    {\bf CCA extension}
+    \startitemize[packed, broad]
+        \item the attacker is also given access to an encryption oracle
+        \item captures authenticity in the presence of attackers that try to generate valid ciphertexts by mauling previously obtained ciphertexts
+    \stopitemize
 \stopslide
 
 \startslide[title={CCA Transformation Lattice}]
-\externalfigure[images/constr][horizontal]
+    \externalfigure[images/constr][horizontal]
 \stopslide
 
 \startslide[title={Digital Signatures}]
-A digital signature $\Pi = (\kgen, \sign, \ver)$ is a scheme for verifying the authenticity of digital messages.
+    A digital signature $\Pi = (\kgen, \sign, \ver)$ is a scheme for verifying the authenticity of digital messages.
 
-The recipient knows that the message:
-\startitemize[packed,broad]
-\item was created by a known sender ({\bf authentication})
-\item was not altered in transit ({\bf integrity})
-\stopitemize
+    The recipient knows that the message:
+    \startitemize[packed,broad]
+        \item was created by a known sender ({\bf authentication})
+        \item was not altered in transit ({\bf integrity})
+    \stopitemize
 \stopslide
 
 \startslide[title={Non-Interactive Zero-Knowledge}]
-A NIZK proof system $\Pi = (\gen, \prover, \verifier)$ is a method by which the prover $\prover$ can prove to the verifier $\verifier$ that he knows a value $x$:
-\startitemize
-\item without interaction ({\bf non-interactive})
-\item without conveying any information apart from the fact that he knows the value $x$ ({\bf zero-knowledge})
-\stopitemize
-If $\prover$ does not know $x$ cannot produce a proof ({\bf soundness})
+    A NIZK proof system $\Pi = (\gen, \prover, \verifier)$ is a method by which the prover $\prover$ can prove to the verifier $\verifier$ that he knows a value $x$:
+    \startitemize
+        \item without interaction ({\bf non-interactive})
+        \item without conveying any information apart from the fact that he knows the value $x$ ({\bf zero-knowledge})
+    \stopitemize
+    If $\prover$ does not know $x$ cannot produce a proof ({\bf soundness})
 \stopslide
 
 \startslide[title={Showcase: CCA Direct Transformation}]
-\externalfigure[images/cca_constr][horizontal]
+    \externalfigure[images/cca_constr][horizontal]
 \stopslide
 
 \startslide[title={Sketch Proof}]
-\startitemize[1, broad]
-\item CCA-authenticity reduced to EUF-CMA of Digital Signatures.
-\item CCA-privacy reduced to CPA-Privacy 
-\stopitemize
+    \startitemize[1, broad]
+        \item CCA-authenticity reduced to EUF-CMA of Digital Signatures.
+        \item CCA-privacy reduced to CPA-Privacy 
+    \stopitemize
 \stopslide
 
 \startslide[title={CCA Privacy Reduction 1/2}]
-The decryption oracle is simulated thanks to $f$-extractability of the NIZK.
-\bigskip
-\externalfigure[images/cca_reduction/4][horizontal]
-\bigskip
-* f-extractability: we can extract information from NIZK proofs if we know an extraction trapdoor $\xi$.
+    The decryption oracle is simulated thanks to $f$-extractability of the NIZK.
+    \bigskip
+    \externalfigure[images/cca_reduction/4][horizontal]
+    \bigskip
+    * f-extractability: we can extract information from NIZK proofs if we know an extraction trapdoor $\xi$.
 \stopslide
 
 \startslide[title={CCA Privacy Reduction 2/2}]
-Here we can see how the last step of the reduction works.
-We attach a simulated proof $\pi$ for $c'_b$ and let the attacker work on it
-\bigskip
-\externalfigure[images/cca_reduction/5][horizontal]
+    Here we can see how the last step of the reduction works.
+    We attach a simulated proof $\pi$ for $c'_b$ and let the attacker work on it
+    \bigskip
+    \externalfigure[images/cca_reduction/5][horizontal]
 \stopslide
 
 
 \startslide[title={Open problems}]
-\startitemize[1, broad]
-\item ME from standard assumptions
-\item Efficient IB-ME constructions
-\item Mitigating Key Escrow
-\item Blackbox Constructions from ABE
-\stopitemize
+    \startitemize[1, broad]
+        \item ME from standard assumptions
+        \item Efficient IB-ME constructions
+        \item Mitigating Key Escrow
+        \item Blackbox Constructions from ABE
+    \stopitemize
 \stopslide
 
 \startslide
 \stopslide
 
 \startslide[title={Many types of ME}]
-\startitemize[1, broad]
-\item {\bf General}
-\startitemize[packed]
-\item One private key per user
-\item One key for each policy
-\stopitemize
-\item {\bf Arranged}
-\startitemize[packed]
-\item A single key is associated with both attributes and policy
-\stopitemize
-\item {\bf Identity-Based}
-\startitemize[packed]
-\item Attributes are simply identities
-\stopitemize
-\stopitemize
+    \startitemize[1, broad]
+        \item {\bf General}
+        \startitemize[packed]
+            \item One private key per user
+            \item One key for each policy
+        \stopitemize
+        \item {\bf Arranged}
+        \startitemize[packed]
+            \item A single key is associated with both attributes and policy
+        \stopitemize
+        \item {\bf Identity-Based}
+        \startitemize[packed]
+            \item Attributes are simply identities
+        \stopitemize
+    \stopitemize
 \stopslide
 
 \startslide[title={General Setting}]
-\startitemize[1,broad]
-\item Key Generation, managed by the trusted party:
-\startitemize[packed, broad]
-\item $\skgen(\msk, \sattr)$
-\item $\rkgen(\msk, \rattr)$
-\item $\polgen(\msk, \saccess)$
-\stopitemize
-\item Encryption. $\enc(\ek_\sattr, \raccess, \msg)$
-\item Decryption. $\dec(\dk_\rattr, \dk_\saccess, \cipher)$
-\item Correctness. If $\saccess(\sattr) = \raccess(\rattr) = 1:$
-\startformula
-Pr[\dec(\dk_\rattr, \dk_\saccess, \enc(\ek_\sattr, \raccess, \msg)) = 1] \ge 1 - \negl
-\stopformula
-\stopitemize
+    \startitemize[1,broad]
+        \item Key Generation, managed by the trusted party:
+        \startitemize[packed, broad]
+            \item $\skgen(\msk, \sattr)$
+            \item $\rkgen(\msk, \rattr)$
+            \item $\polgen(\msk, \saccess)$
+        \stopitemize
+        \item Encryption. $\enc(\ek_\sattr, \raccess, \msg)$
+        \item Decryption. $\dec(\dk_\rattr, \dk_\saccess, \cipher)$
+        \item Correctness. If $\saccess(\sattr) = \raccess(\rattr) = 1:$
+        \startformula
+            Pr[\dec(\dk_\rattr, \dk_\saccess, \enc(\ek_\sattr, \raccess, \msg)) = 1] \ge 1 - \negl
+        \stopformula
+    \stopitemize
 \stopslide
 
 \startslide[title={Arranged Matchmaking}]
-\startitemize[1,broad]
-\item Key Generation, managed by the trusted party:
-\startitemize[packed, broad]
-\item $\skgen(\msk, \sattr)$
-\item $\rkgen(\msk, \rattr, \important{\saccess})$
-\item $\overstrike{\polgen(\msk, \saccess)}$
-\stopitemize
-\item Encryption: $\enc(\ek_\sattr, \raccess, \msg)$
-\item Decryption: $\dec(\dk_{\rattr, \important\saccess}, \cipher)$
-\item Correctness. If $\saccess(\sattr) = \raccess(\rattr) = 1:$
-\startformula
-Pr[\dec(\dk_{\rattr, \saccess}, \enc(\ek_\sattr, \raccess, \msg)) = 1] \ge 1 - \negl
-\stopformula
-\stopitemize
+    \startitemize[1,broad]
+        \item Key Generation, managed by the trusted party:
+        \startitemize[packed, broad]
+            \item $\skgen(\msk, \sattr)$
+            \item $\rkgen(\msk, \rattr, \important{\saccess})$
+            \item $\overstrike{\polgen(\msk, \saccess)}$
+        \stopitemize
+        \item Encryption: $\enc(\ek_\sattr, \raccess, \msg)$
+        \item Decryption: $\dec(\dk_{\rattr, \important\saccess}, \cipher)$
+        \item Correctness. If $\saccess(\sattr) = \raccess(\rattr) = 1:$
+        \startformula
+            Pr[\dec(\dk_{\rattr, \saccess}, \enc(\ek_\sattr, \raccess, \msg)) = 1] \ge 1 - \negl
+        \stopformula
+    \stopitemize
 \stopslide
 
 \startslide[title={CCA Privacy Game}]
-Captures secrecy of sender's inputs.
-\startformula
-\startmatrix[align=left]
-\NC \underline{G_{\Pi, A}^{\rm{priv}}(\lambda, b)}: \NR
-\NR
-\NC (\mpk, \kpol, \msk) \sample \tt{Setup}(\secparam) \NR
-\NC (\msg_0, \msg_1, \raccess_0, \raccess_1, \sattr_0, \sattr_1, \alpha) \sample A_1^{O_1, O_2, O_3, \important O_4}(\secparam, \mpk) \NR
-\NC \ek_{\sattr_b} \sample \skgen(\msk, \sattr_b) \NR
-\NC \cipher \sample \enc(\ek_{\sattr_b}, \raccess_b, \msg_b) \NR
-\NC b' \sample A_2^{O_1, O_2, O_3, \important O_4}(\secparam, \cipher, \alpha) \NR
-\stopmatrix
-\stopformula
+    Captures secrecy of sender's inputs.
+    \startformula
+        \startmatrix[align=left]
+            \NC \underline{G_{\Pi, A}^{\rm{priv}}(\lambda, b)}: \NR
+            \NR
+            \NC (\mpk, \kpol, \msk) \sample \tt{Setup}(\secparam) \NR
+            \NC (\msg_0, \msg_1, \raccess_0, \raccess_1, \sattr_0, \sattr_1, \alpha) \sample A_1^{O_1, O_2, O_3, \important O_4}(\secparam, \mpk) \NR
+            \NC \ek_{\sattr_b} \sample \skgen(\msk, \sattr_b) \NR
+            \NC \cipher \sample \enc(\ek_{\sattr_b}, \raccess_b, \msg_b) \NR
+            \NC b' \sample A_2^{O_1, O_2, O_3, \important O_4}(\secparam, \cipher, \alpha) \NR
+        \stopmatrix
+    \stopformula
 \stopslide
 
 \startslide[title={CCA Authenticity Game}]
-Captures security against malicious senders.
-\startformula
-\startmatrix[align=left]
-\underline{G_{\Pi, A}^{\rm{auth}}(\lambda)}: \NR
-\NR
-(\mpk, \kpol, \msk) \sample \tt{Setup}(\secparam) \NR
-(\cipher, \rho, \saccess) \sample A_1^{O_1, O_2, O_3, \important O_5}(\secparam, \mpk) \NR
-\dk_\rattr \sample \rkgen(\msk, \rattr_b) \NR
-\dk_\saccess \sample \polgen(\kpol, \saccess) \NR
-m = \dec(\dk_\rattr, \dk_\saccess, \cipher) \NR
-\NR
-\important{(\cipher \not\in \mathbb{O}_{O_5})} \land \forall \sattr \in \cQuery_{O_1}: (\saccess(\sattr) = 0) \land (\msg \ne \bot) \NR
-\stopmatrix
-\stopformula
+    Captures security against malicious senders.
+    \startformula
+        \startmatrix[align=left]
+            \underline{G_{\Pi, A}^{\rm{auth}}(\lambda)}: \NR
+            \NR
+            (\mpk, \kpol, \msk) \sample \tt{Setup}(\secparam) \NR
+            (\cipher, \rho, \saccess) \sample A_1^{O_1, O_2, O_3, \important O_5}(\secparam, \mpk) \NR
+            \dk_\rattr \sample \rkgen(\msk, \rattr_b) \NR
+            \dk_\saccess \sample \polgen(\kpol, \saccess) \NR
+            m = \dec(\dk_\rattr, \dk_\saccess, \cipher) \NR
+            \NR
+            \important{(\cipher \not\in \mathbb{O}_{O_5})} \land \forall \sattr \in \cQuery_{O_1}: (\saccess(\sattr) = 0) \land (\msg \ne \bot) \NR
+        \stopmatrix
+    \stopformula
 \stopslide
 
 \startslide[title={Key Escrow}]
-\startitemize[packed, broad]
-\item All users’ private keys are issued by an unconditionally trusted authority
-\item Such an authority owns the master secret key of the system, and can decrypt all ciphertexts encrypted to any user
-\item Potentially this is the target for some attacker, which can obtain private
-keys and redistribute them for malicious use
-\stopitemize
+    \startitemize[packed, broad]
+        \item All users’ private keys are issued by an unconditionally trusted authority
+        \item Such an authority owns the master secret key of the system, and can decrypt all ciphertexts encrypted to any user
+        \item Potentially this is the target for some attacker which can obtain private keys and redistribute them for malicious use
+    \stopitemize
 
-{\important Can we reduce the trust in the authority in an ME system?}
+    {\important Can we reduce the trust in the authority in an ME system?}
 \stopslide
 
 \startslide[title={Registration-Based ME}]
-\startitemize[broad]
-\item Substitute the trusted authority with a weaker entity called key curator who has no knowledge of any secret key
-\item Each party generates its own secret key and publicly register its identity and the corresponding public key to the key curator
-\item RBE schemes can be constructed from standard assumptions
-\stopitemize
+    \startitemize[broad]
+        \item Substitute the trusted authority with a weaker entity called key curator who has no knowledge of any secret key
+        \item Each party generates its own secret key and publicly register its identity and the corresponding public key to the key curator
+        \item RBE schemes can be constructed from standard assumptions
+    \stopitemize
 \stopslide
 
 \startslide[title={Types of ABE}]
-{\bf Ciphertext-Policy ABE}
-\startitemize[packed, broad]
-\item the decryption key is associated with receiver's attributes
-\item the policy is embedded in the ciphertext
-\stopitemize
-{\bf Key-Policy ABE}
-\startitemize[packed, broad]
-\item the decryption key is associated with a policy
-\item the ciphertext is annotated with attribute sets
-\stopitemize
+    {\bf Ciphertext-Policy ABE}
+    \startitemize[packed, broad]
+        \item the decryption key is associated with receiver's attributes
+        \item the policy is embedded in the ciphertext
+    \stopitemize
+    {\bf Key-Policy ABE}
+    \startitemize[packed, broad]
+        \item the decryption key is associated with a policy
+        \item the ciphertext is annotated with attribute sets
+    \stopitemize
 \stopslide
 
 \startslide[title={Dual-policy ABE}]
-Similar to Arranged Matchmaking:
-\startitemize[packed]
-\item Both the sender and the receiver can specify a policy
-\item One private key per user
-\item A single decryption key is associated with both the receiver’s
-policy and attributes
-\stopitemize
+    Similar to Arranged Matchmaking
+    \startitemize[packed]
+        \item Both the sender and the receiver can specify a policy
+        \item One private key per user
+        \item A single decryption key is associated with both the receiver’s policy and attributes
+    \stopitemize
 
-But:
-\startitemize[packed]
-\item In case of mismatch we know the reason why the match did not occur!
-\stopitemize
+    But
+    \startitemize[packed]
+        \item In case of mismatch we know the reason why the match did not occur!
+    \stopitemize
 \stopslide
 
 \startslide[title={Signatures: a formal definition}]
-A signature scheme $\Pi = (\kgen, \sign, \ver)$ satisfies:
-\startitemize[n,packed,broad]
-\item {\bf Correctness}. $\forall\secpar\in\NN$, $\forall (\sk, \pk) \sample \kgen(\secparam)$, and $\forall \msg \in \cMSG$:
-\startformula
-P[\ver(\pk, \msg, \sign(\sk, \msg)) = 1] = 1.
-\stopformula
-\item {\bf EUF-CMA}. $\forall$ PPT $\adversary:$
-\startformula
-Pr[\Sigeufgame_{\Pi,\adversary}(\secpar) = 1] \leq \negl
-\stopformula
-where $\Sigeufgame_{\Pi,\adversary}(\secpar)$ is the following game:
-\startitemize[packed]
-\item $(\sk, \pk) \sample KGen(\secparam)$.
-\item $(\msg, \signature) \sample \adversary^{\sign(\sk, \cdot)}(\secparam, \pk)$
-\item If $\msg \not\in \cQuery_{\sign}$, and $\ver(\pk,\msg, \signature) = 1$, output $1$, else $0$.
-\stopitemize
+    A signature scheme $\Pi = (\kgen, \sign, \ver)$ satisfies:
+    \startitemize[n,packed,broad]
+        \item {\bf Correctness}. $\forall\secpar\in\NN$, $\forall (\sk, \pk) \sample \kgen(\secparam)$, and $\forall \msg \in \cMSG$:
+        \startformula
+            P[\ver(\pk, \msg, \sign(\sk, \msg)) = 1] = 1.
+        \stopformula
+        \item {\bf EUF-CMA}. $\forall$ PPT $\adversary:$
+        \startformula
+            Pr[\Sigeufgame_{\Pi,\adversary}(\secpar) = 1] \leq \negl
+        \stopformula
+        where $\Sigeufgame_{\Pi,\adversary}(\secpar)$ is the following game:
+        \startitemize[packed]
+            \item $(\sk, \pk) \sample KGen(\secparam)$.
+            \item $(\msg, \signature) \sample \adversary^{\sign(\sk, \cdot)}(\secparam, \pk)$
+            \item If $\msg \not\in \cQuery_{\sign}$, and $\ver(\pk,\msg, \signature) = 1$, output $1$, else $0$.
+    \stopitemize
 \stopslide
 
 \startslide[title={NIZK: a formal definition}]
-A NIZK proof system $\Pi = (\gen, \prover, \verifier)$ for a relation $R$ satisfies:
-\startitemize[n, packed, broad, atmargin]
-\item {\bf Completeness}. $\forall y \in L$:
-\startformula
-Pr[\verifier(\omega, y, \pi)=1: \omega \sample \gen(\secparam), \pi \sample \prover(\omega, y, x)] = 1
-\stopformula
-\item {\bf Soundness}. $\forall y \not\in L, \forall \prover^*$:
-\startformula
-Pr[\verifier(\omega, y, \pi)=1: \omega \sample \gen(\secparam), \pi \sample \prover^*(\omega, y)] \in \negl
-\stopformula
-\item {\bf Zero-Knowledge}. $\exists (Z_0, Z_1)$ s.t. $\forall y \in L:$
-\startformula
-\{\omega, Z_1(\zeta, y): (\omega, \zeta) \sample Z_0(\secparam)\}
-\stopformula
-\startformula
-\approx_c
-\stopformula
-\startformula
-\{\omega, \prover(\omega, y, x): \omega \sample \gen(\secparam)\}
-\stopformula
-\stopitemize
+    A NIZK proof system $\Pi = (\gen, \prover, \verifier)$ for a relation $R$ satisfies:
+    \startitemize[n, packed, broad, atmargin]
+        \item {\bf Completeness}. $\forall y \in L$:
+        \startformula
+            Pr[\verifier(\omega, y, \pi)=1: \omega \sample \gen(\secparam), \pi \sample \prover(\omega, y, x)] = 1
+        \stopformula
+        \item {\bf Soundness}. $\forall y \not\in L, \forall \prover^*$:
+        \startformula
+            Pr[\verifier(\omega, y, \pi)=1: \omega \sample \gen(\secparam), \pi \sample \prover^*(\omega, y)] \in \negl
+        \stopformula
+        \item {\bf Zero-Knowledge}. $\exists (Z_0, Z_1)$ s.t. $\forall y \in L:$
+        \startformula
+            \{\omega, Z_1(\zeta, y): (\omega, \zeta) \sample Z_0(\secparam)\}
+        \stopformula
+        \startformula
+            \approx_c
+        \stopformula
+        \startformula
+            \{\omega, \prover(\omega, y, x): \omega \sample \gen(\secparam)\}
+        \stopformula
+    \stopitemize
 \stopslide
 
 \startslide[title={True-Simulation Extractability}]
-A NIZK $\Pi$ for a relation $R$ satisfies true-simulation f-extractability for a function $f$ if $\exists$ PPT extractor $K = (K_0,K_1)$ s. t. $\forall \adversary$:
-\startformula
-Pr
-\startmatrix[left={\left[\,},right={\,\right]}]
-\NC \ver(\omega, y, \pi) = 1 \;\land \NC \NC (\omega, \zeta, \xi) \sample K_0(\secparam) \;\land \NR
-\NC (y, \pi) \not\in\mathcal{O}_O \;\land \NC : \NC (y, \pi) \sample \adversary^{O(\zeta, (\cdot, \cdot))}(\omega) \;\land \NR
-\NC \forall x: f(x) = z, (y, x) \not \in R \NC \NC z \sample K_1(\xi, y, \pi) \NR
-\stopmatrix
-\stopformula
-* the oracle $O(\zeta, \cdot, \cdot)$ takes as input a pair $(y, x)$ and returns $Z_1(\zeta, y)$ if $(y, x) \in R$ (and otherwise \bot).
+    A NIZK $\Pi$ for a relation $R$ satisfies true-simulation f-extractability for a function $f$ if $\exists$ PPT extractor $K = (K_0,K_1)$ s. t. $\forall \adversary$:
+    \startformula
+        Pr
+        \startmatrix[left={\left[\,},right={\,\right]}]
+            \NC \ver(\omega, y, \pi) = 1 \;\land \NC \NC (\omega, \zeta, \xi) \sample K_0(\secparam) \;\land \NR
+            \NC (y, \pi) \not\in\mathcal{O}_O \;\land \NC : \NC (y, \pi) \sample \adversary^{O(\zeta, (\cdot, \cdot))}(\omega) \;\land \NR
+            \NC \forall x: f(x) = z, (y, x) \not \in R \NC \NC z \sample K_1(\xi, y, \pi) \NR
+        \stopmatrix
+    \stopformula
+    * the oracle $O(\zeta, \cdot, \cdot)$ takes as input a pair $(y, x)$ and returns $Z_1(\zeta, y)$ if $(y, x) \in R$ (and otherwise \bot).
 \stopslide
 
 \startslide[title={CCA Privacy Proof (1/5)}]
-We show a proof by reduction to CPA Privacy. This is how our attacker setups the environment.
-\bigskip
-\externalfigure[images/cca_reduction/1][horizontal]
+    We show a proof by reduction to CPA Privacy. This is how our attacker setups the environment.
+    \bigskip
+    \externalfigure[images/cca_reduction/1][horizontal]
 \stopslide
 
 \startslide[title={CCA Privacy Proof (2/5)}]
-The encryption keys are enhanced with valid signatures produced by the attacker.
-\bigskip
-\externalfigure[images/cca_reduction/2][horizontal]
+    The encryption keys are enhanced with valid signatures produced by the attacker.
+    \bigskip
+    \externalfigure[images/cca_reduction/2][horizontal]
 \stopslide
 
 \startslide[title={CCA Privacy Proof (3/5)}]
-Decryption keys remain the same. No need to modify them.
-\bigskip
-\externalfigure[images/cca_reduction/3][horizontal]
+    Decryption keys remain the same. No need to modify them.
+    \bigskip
+    \externalfigure[images/cca_reduction/3][horizontal]
 \stopslide
 
 \startslide[title={CCA Privacy Proof (4/5)}]
-The decryption queries are simulated thanks to true-simulation f-extractability of the NIZK.
-\bigskip
-\externalfigure[images/cca_reduction/4][horizontal]
+    The decryption queries are simulated thanks to true-simulation f-extractability of the NIZK.
+    \bigskip
+    \externalfigure[images/cca_reduction/4][horizontal]
 \stopslide
 
 \startslide[title={CCA Privacy Proof (5/5)}]
-Finally, the challenge is enhanced with a simulated proof. Then the attacker returns the same bit.
-\bigskip
-\externalfigure[images/cca_reduction/5][horizontal]
-\stopslide
+    Finally, the challenge is enhanced with a simulated proof. Then the attacker returns the same bit.
+    \bigskip
+    \externalfigure[images/cca_reduction/5][horizontal]
+    \stopslide
 \stoptext

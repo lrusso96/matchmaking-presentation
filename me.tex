@@ -107,7 +107,7 @@
     {\important Matchmaking Encryption did not consider CCA.}
 \stopslide
 
-\startslide[title={Thesis Goals}]
+\startslide[title={Thesis Contributions}]
     \startitemize[n]
         \item Extend the security definitions to handle chosen-ciphertext attacks
         \startitemize[1, packed]
@@ -121,6 +121,7 @@
             \item Privacy and Authenticity
         \stopitemize
     \stopitemize
+    {\important We have made this for both {\underbar general} and {\underbar arranged} settings.}
 \stopslide
 
 \startslide[title={Privacy}]
@@ -153,7 +154,15 @@
 \stopslide
 
 \startslide[title={CCA Transformation Lattice}]
-    \externalfigure[images/constr][horizontal]
+    \startitemize[packed]
+        \item P/p: CCA/CPA Privacy
+        \item A/a: CCA/CPA Authenticity
+        \item 1-6: lemmas 
+    \stopitemize
+    \startalignment[middle]
+    \dontleavehmode
+        \externalfigure[images/constr][horizontal]
+    \stopalignment
 \stopslide
 
 \startslide[title={Digital Signatures}]
@@ -189,7 +198,7 @@
 \startslide[title={CCA Privacy Reduction 1/2}]
     The decryption oracle is simulated thanks to $f$-extractability of the NIZK.
     \bigskip
-    \externalfigure[images/cca_reduction/4][horizontal]
+    \externalfigure[images/cca_reduction/4_full][horizontal]
     \bigskip
     * f-extractability: we can extract information from NIZK proofs if we know an extraction trapdoor $\xi$.
 \stopslide
@@ -198,7 +207,7 @@
     Here we can see how the last step of the reduction works.
     We attach a simulated proof $\pi$ for $c'_b$ and let the attacker work on it
     \bigskip
-    \externalfigure[images/cca_reduction/5][horizontal]
+    \externalfigure[images/cca_reduction/5_full][horizontal]
 \stopslide
 
 

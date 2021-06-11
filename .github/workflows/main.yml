@@ -17,5 +17,7 @@ jobs:
           sh install.sh
           cd tex/texmf-linux-64/bin
           CTXPATH=`pwd`
-          cd $GITHUB_WORKSPACE
-          $CTXPATH/context me
+          cd $GITHUB_WORKSPACE/thesis
+          $CTXPATH/context main
+          cd $GITHUB_WORKSPACE/eurecom
+          $CTXPATH/context main
